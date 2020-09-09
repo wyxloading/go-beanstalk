@@ -61,3 +61,16 @@ func findRespError(s string) error {
 	}
 	return unknownRespError(s)
 }
+
+type netError struct {
+	Op  string
+	Err error
+}
+
+func (e netError) Error() string {
+	return e.Op + ": " + e.Err.Error()
+}
+
+func (e netError) Unwrap() error {
+	return e.Err
+}

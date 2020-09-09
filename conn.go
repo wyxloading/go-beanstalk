@@ -90,7 +90,7 @@ func (c *Conn) cmd(t *Tube, ts *TubeSet, body []byte, op string, args ...interfa
 	}
 	err = c.c.W.Flush()
 	if err != nil {
-		return req{}, ConnError{c, op, err}
+		return req{}, netError{op, err}
 	}
 	return r, nil
 }
@@ -143,7 +143,7 @@ func (c *Conn) readResp(r req, readBody bool, f string, a ...interface{}) (body 
 		line, err = c.c.ReadLine()
 	}
 	if err != nil {
-		return nil, ConnError{c, r.op, err}
+		return nil, netError{r.op, err}
 	}
 	toScan := line
 	if readBody {
@@ -155,7 +155,7 @@ func (c *Conn) readResp(r req, readBody bool, f string, a ...interface{}) (body 
 		body = make([]byte, size+2) // include trailing CR NL
 		_, err = io.ReadFull(c.c.R, body)
 		if err != nil {
-			return nil, ConnError{c, r.op, err}
+			return nil, netError{r.op, err}
 		}
 		body = body[:size] // exclude trailing CR NL
 	}
