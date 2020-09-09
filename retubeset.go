@@ -30,6 +30,10 @@ func init() {
 	cancel()
 }
 
+func (t *Retubeset) Close() error {
+	return t.rc.Close()
+}
+
 // Reserve reserves and returns a job from one of the tubes in t. If no
 // job is available before time timeout has passed, Reserve returns a
 // ConnError recording ErrTimeout.

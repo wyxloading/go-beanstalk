@@ -20,6 +20,10 @@ func NewRetube(c *Reconn, name string) *Retube {
 	}
 }
 
+func (t *Retube) Close() error {
+	return t.rc.Close()
+}
+
 // Put puts a job into tube t with priority pri and TTR ttr, and returns
 // the id of the newly-created job. If delay is nonzero, the server will
 // wait the given amount of time after returning to the client and before
